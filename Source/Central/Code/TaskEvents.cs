@@ -88,6 +88,7 @@ namespace TomShane.Neoforce.Central
 			lst.MouseOver += new MouseEventHandler(btn_MouseOver);
 			lst.MouseOut += new MouseEventHandler(btn_MouseOut);
 			lst.MousePress += new MouseEventHandler(btn_MousePress);
+            lst.MouseScroll += new MouseEventHandler(lst_MouseScroll);
 			lst.Click += new EventHandler(btn_Click);
 
 			txt = new ListBox(manager);
@@ -98,6 +99,12 @@ namespace TomShane.Neoforce.Central
 			txt.Width = 160;
 			txt.Height = 300;
 		}
+
+        void lst_MouseScroll(object sender, MouseEventArgs e)
+        {
+            txt.Items.Add((sender == btn ? "Button" : "List") + ": Scroll");
+            txt.ItemIndex = txt.Items.Count - 1;
+        }
 		#endregion
 
 		#region Button Click Event Handler

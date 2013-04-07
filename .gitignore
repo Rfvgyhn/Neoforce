@@ -16,6 +16,8 @@ local.properties
 .settings/
 .loadpath
 
+Skins/*.skin
+
 # External tool builders
 .externalToolBuilders/
 

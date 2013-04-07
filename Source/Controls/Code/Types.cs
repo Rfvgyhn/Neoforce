@@ -36,6 +36,7 @@ namespace TomShane.Neoforce.Controls
 		MouseMove,
 		MouseOver,
 		MouseOut,
+        MouseScroll,
 		KeyDown,
 		KeyUp,
 		KeyPress,

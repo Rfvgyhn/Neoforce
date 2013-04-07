@@ -53,6 +53,13 @@ namespace TomShane.Neoforce.Controls
 		XButton1,
 		XButton2
 	}
+
+    public enum MouseScrollDirection
+    {
+        None = 0,
+        Down = 1,
+        Up = 2
+    }
 	
 	/// <summary>
 	/// Identifies a particular button on an Xbox 360 gamepad.
@@ -414,6 +421,10 @@ namespace TomShane.Neoforce.Controls
 		/// Occurs when the mouse is moved.
 		/// </summary>
 		public event MouseEventHandler MouseMove;
+        /// <summary>
+        /// Occurs when the mouse is scrolled.
+        /// </summary>
+        public event MouseEventHandler MouseScroll;
 		/// <summary>
 		/// Occurs when a gamepad button leaves the pressed state.
 		/// </summary>
@@ -893,6 +904,13 @@ namespace TomShane.Neoforce.Controls
 			Point pos = RecalcPosition(new Point(mouseState.X, mouseState.Y));
 			e.Difference = new Point(e.Position.X - pos.X, e.Position.Y - pos.Y);
 		}
+
+        private void BuildMouseEvent(MouseState state, MouseButton button, MouseScrollDirection direction, ref MouseEventArgs e)
+        {
+            BuildMouseEvent(state, button, ref e);
+
+            e.ScrollDirection = direction;
+        }
 		#endregion
 
 		#region Update Mouse
@@ -925,6 +943,20 @@ namespace TomShane.Neoforce.Controls
 					MouseMove.Invoke(this, e);
 				}
 			}
+
+            // Mouse wheel position changed
+            if (state.ScrollWheelValue != mouseState.ScrollWheelValue)
+            {
+                MouseEventArgs e = new MouseEventArgs();
+                MouseScrollDirection direction = state.ScrollWheelValue < mouseState.ScrollWheelValue ? MouseScrollDirection.Down : MouseScrollDirection.Up;
+
+                BuildMouseEvent(state, MouseButton.None, direction, ref e);
+
+                if (MouseScroll != null)
+                {
+                    MouseScroll.Invoke(this, e);
+                }
+            }
 
 			// Update the mouse button states.
 			UpdateButtons(state, gameTime);

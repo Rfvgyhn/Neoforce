@@ -1234,6 +1234,22 @@ namespace TomShane.Neoforce.Controls
 		}
 		#endregion
 
+        protected override void OnMouseScroll(MouseEventArgs e)
+        {
+            if (Mode != TextBoxMode.Multiline)
+            {
+                base.OnMouseScroll(e);
+                return;
+            }
+
+            if (e.ScrollDirection == MouseScrollDirection.Down)
+                vert.ScrollDown();
+            else
+                vert.ScrollUp();
+
+            base.OnMouseScroll(e);
+        }
+
 		#region On Key Press Event Handler
 		/// <summary>
 		/// Handles key press events for the text box.

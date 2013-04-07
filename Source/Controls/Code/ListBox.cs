@@ -430,6 +430,33 @@ namespace TomShane.Neoforce.Controls
 		}
 		#endregion
 
+        /// <summary>
+		/// Handles mouse scroll events for the list box.
+		/// </summary>
+		/// <param name="e"></param>
+        protected override void OnMouseScroll(MouseEventArgs e)
+        {
+            Focused = true;
+
+            if (e.ScrollDirection == MouseScrollDirection.Down)
+            {
+                e.Handled = true;
+                itemIndex += sbVert.StepSize / 10;
+            }
+            else if (e.ScrollDirection == MouseScrollDirection.Up)
+            {
+                e.Handled = true;
+                itemIndex -= sbVert.StepSize / 10;
+            }
+
+            // Wrap index in collection range.
+            if (itemIndex < 0) itemIndex = 0;
+            else if (itemIndex >= Items.Count) itemIndex = Items.Count - 1;
+
+            ItemIndex = itemIndex;
+
+            base.OnMouseScroll(e);
+        }
 		#region On Game Pad Press Event Handler
 		/// <summary>
 		/// Handles gamepad button presses for the list box. Specifically, the up and down buttons.

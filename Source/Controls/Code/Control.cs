@@ -359,6 +359,10 @@ namespace TomShane.Neoforce.Controls
 		/// Tracks the pressed state of various input buttons.
 		/// </summary>
 		private bool[] pressed = new bool[32];
+        /// <summary>
+        /// Tracks the position of the mouse scroll wheel
+        /// </summary>
+        private int scrollWheel = 0;
 		/// <summary>
 		/// Indicates if the control is currently involved in a move event.
 		/// </summary>
@@ -1399,6 +1403,10 @@ namespace TomShane.Neoforce.Controls
 		/// Occurs right after a MouseDown event and fires repeatedly with a delay.
 		/// </summary>
 		public event MouseEventHandler MousePress;
+        /// <summary>
+        /// Occurs when the mouse scroll wheel position changes
+        /// </summary>
+        public event MouseEventHandler MouseScroll;
 		/// <summary>
 		/// Occurs when the control receives a mouse button up event.
 		/// </summary>
@@ -2584,6 +2592,11 @@ namespace TomShane.Neoforce.Controls
 						MousePressProcess(e as MouseEventArgs);
 						break;
 					}
+                case Message.MouseScroll:
+                    {
+                        MouseScrollProcess(e as MouseEventArgs);
+                        break;
+                    }
 				case Message.MouseMove:
 					{
 						MouseMoveProcess(e as MouseEventArgs);
@@ -2850,6 +2863,14 @@ namespace TomShane.Neoforce.Controls
 		}
 		#endregion
 
+        void MouseScrollProcess(MouseEventArgs e)
+        {
+            if (!IsMoving && !IsResizing && !Suspended)
+            {
+                OnMouseScroll(e);
+            }
+        }
+
 		#region Mouse Over Process
 		/// <summary>
 		/// Processes mouse over events for the control.
@@ -3112,7 +3133,7 @@ namespace TomShane.Neoforce.Controls
 		/// </summary>
 		/// <param name="e"></param>
 		/// <returns></returns>
-		private MouseEventArgs TransformPosition(MouseEventArgs e)
+		protected MouseEventArgs TransformPosition(MouseEventArgs e)
 		{
 			MouseEventArgs ee = new MouseEventArgs(e.State, e.Button, e.Position);
 			ee.Difference = e.Difference;
@@ -3122,7 +3143,7 @@ namespace TomShane.Neoforce.Controls
 			return ee;
 		}
 		#endregion
-
+        
 		#region Check Width
 		/// <summary>
 		/// 
@@ -3806,5 +3827,10 @@ namespace TomShane.Neoforce.Controls
 			if (MousePress != null) MousePress.Invoke(this, e);
 		}
 		#endregion
+
+        protected virtual void OnMouseScroll(MouseEventArgs e)
+        {
+            if (MouseScroll != null) MouseScroll.Invoke(this, e);
+        }
 	}
 }

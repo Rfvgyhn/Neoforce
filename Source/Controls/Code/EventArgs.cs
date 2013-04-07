@@ -137,6 +137,10 @@ namespace TomShane.Neoforce.Controls
 		/// Mouse cursor position delta.
 		/// </summary>
 		public Point Difference = new Point(0, 0);
+        /// <summary>
+        /// Mouse scroll direction
+        /// </summary>
+        public MouseScrollDirection ScrollDirection = MouseScrollDirection.None;
 		#endregion
 
 		#region Constructors
@@ -146,6 +150,19 @@ namespace TomShane.Neoforce.Controls
 		public MouseEventArgs()
 		{
 		}
+
+        /// <summary>
+        /// Creates a new initialized instace of the MouseEventArgs class.
+        /// </summary>
+        /// <param name="state">Mouse state at the time of the event.</param>
+        /// <param name="button">Mouse button state at the time of the event.</param>
+        /// <param name="position">Mosue cursor position at the time of the event.</param>
+        public MouseEventArgs(MouseState state, MouseButton button, Point position)
+        {
+            State = state;
+            Button = button;
+            Position = position;
+        }
 		
 		/// <summary>
 		/// Creates a new initialized instace of the MouseEventArgs class.
@@ -153,11 +170,13 @@ namespace TomShane.Neoforce.Controls
 		/// <param name="state">Mouse state at the time of the event.</param>
 		/// <param name="button">Mouse button state at the time of the event.</param>
 		/// <param name="position">Mosue cursor position at the time of the event.</param>
-		public MouseEventArgs(MouseState state, MouseButton button, Point position)
+        /// <param name="scrollDirection">Mouse scroll direction at the time of the event.</param>
+		public MouseEventArgs(MouseState state, MouseButton button, Point position, MouseScrollDirection scrollDirection)
 		{
 			State = state;
 			Button = button;
 			Position = position;
+            ScrollDirection = scrollDirection;
 		}
 		
 		/// <summary>
@@ -170,6 +189,7 @@ namespace TomShane.Neoforce.Controls
 			Button = e.Button;
 			Position = e.Position;
 			Difference = e.Difference;
+            ScrollDirection = e.ScrollDirection;
 		}
 		#endregion
 	}

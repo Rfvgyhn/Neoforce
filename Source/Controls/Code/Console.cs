@@ -241,7 +241,7 @@ namespace TomShane.Neoforce.Controls
 		/// <summary>
 		/// Console text box's vertical scroll bar control.
 		/// </summary>
-		private ScrollBar sbVert;
+		//private ScrollBar VerticalScrollBar;
 		/// <summary>
 		/// Console message list.
 		/// </summary>
@@ -401,16 +401,12 @@ namespace TomShane.Neoforce.Controls
 			txtMain.FocusGained += new EventHandler(txtMain_FocusGained);
 			Add(txtMain, false);
 
-			sbVert = new ScrollBar(manager, Orientation.Vertical);
-			sbVert.Init();
-			sbVert.Top = 2;
-			sbVert.Left = Width - 18;
-			sbVert.Anchor = Anchors.Right | Anchors.Top | Anchors.Bottom;
-			sbVert.Range = 1;
-			sbVert.PageSize = 1;
-			sbVert.Value = 0;
-			sbVert.ValueChanged += new EventHandler(sbVert_ValueChanged);
-			Add(sbVert, false);
+			VerticalScrollBar.Top = 2;
+			VerticalScrollBar.Left = Width - 18;
+			VerticalScrollBar.Range = 1;
+			VerticalScrollBar.PageSize = 1;
+			VerticalScrollBar.ValueChanged += new EventHandler(VerticalScrollBar_ValueChanged);
+            VerticalScrollBar.Visible = true;
 
 			ClientArea.Draw += new DrawEventHandler(ClientArea_Draw);
 
@@ -437,14 +433,14 @@ namespace TomShane.Neoforce.Controls
 
 				if (textBoxVisible)
 				{
-					ClientMargins = new Margins(Skin.ClientMargins.Left, Skin.ClientMargins.Top + 4, sbVert.Width + 6, txtMain.Height + 4);
-					sbVert.Height = Height - txtMain.Height - 5;
+					ClientMargins = new Margins(Skin.ClientMargins.Left, Skin.ClientMargins.Top + 4, VerticalScrollBar.Width + 6, txtMain.Height + 4);
+					VerticalScrollBar.Height = Height - txtMain.Height - 5;
 				}
 
 				else
 				{
-					ClientMargins = new Margins(Skin.ClientMargins.Left, Skin.ClientMargins.Top + 4, sbVert.Width + 6, 2);
-					sbVert.Height = Height - 4;
+					ClientMargins = new Margins(Skin.ClientMargins.Left, Skin.ClientMargins.Top + 4, VerticalScrollBar.Width + 6, 2);
+					VerticalScrollBar.Height = Height - 4;
 				}
 
 				Invalidate();
@@ -504,8 +500,8 @@ namespace TomShane.Neoforce.Controls
 				// Get messages based on channel index filter.
 				EventedList<ConsoleMessage> b = GetFilteredBuffer(filter);
 				int c = b.Count;
-				int s = (sbVert.Value + sbVert.PageSize);
-				int f = s - sbVert.PageSize;
+				int s = (VerticalScrollBar.Value + VerticalScrollBar.PageSize);
+				int f = s - VerticalScrollBar.PageSize;
 
 				// Still messages to display?
 				if (b.Count > 0)
@@ -724,7 +720,7 @@ namespace TomShane.Neoforce.Controls
 		private void CalcScrolling()
 		{
 			// Adjust the scroll bar values if it exists.
-			if (sbVert != null)
+			if (VerticalScrollBar != null)
 			{
 				// Get the line height of the text, the number of lines displayed, and the number of lines that can be displayed at once.
 				int line = Skin.Layers[0].Text.Font.Resource.LineSpacing;
@@ -732,9 +728,9 @@ namespace TomShane.Neoforce.Controls
 				int p = (int)Math.Ceiling(ClientArea.ClientHeight / (float)line);
 
 				// Update the scroll bar values.
-				sbVert.Range = c == 0 ? 1 : c;
-				sbVert.PageSize = c == 0 ? 1 : p;
-				sbVert.Value = sbVert.Range;
+				VerticalScrollBar.Range = c == 0 ? 1 : c;
+				VerticalScrollBar.PageSize = c == 0 ? 1 : p;
+				VerticalScrollBar.Value = VerticalScrollBar.Range;
 			}
 		}
 		#endregion
@@ -745,7 +741,7 @@ namespace TomShane.Neoforce.Controls
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		void sbVert_ValueChanged(object sender, EventArgs e)
+		void VerticalScrollBar_ValueChanged(object sender, EventArgs e)
 		{
 			ClientArea.Invalidate();
 		}
