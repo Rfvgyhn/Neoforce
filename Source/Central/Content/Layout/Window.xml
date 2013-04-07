@@ -1,0 +1,21 @@
+﻿<Layout Name="Window" Version="0.7">
+  <Controls>    
+    <Control Name="frmMain" Class="Window">
+      <Properties>
+        <Property Name="Left" Value="300"/>
+        <Property Name="Top" Value="200"/>
+        <Property Name="MinimumWidth" Value="300"/>
+      </Properties>
+      <Controls>
+        <Control Name="btnOk" Class="Button">
+          <Properties>
+            <Property Name="Left" Value="100"/>
+            <Property Name="Top" Value="100"/>
+            <Property Name="Text" Value="btn!"/>            
+          </Properties>
+        </Control>
+      </Controls>
+    </Control>    
+  </Controls>  
+</Layout>
+
