@@ -511,6 +511,7 @@ namespace TomShane.Neoforce.Controls
 					{
 						{
 							int x = 4;
+							if (this.IsChild == true) { x = 12; } else { x = 4; }
 							int y = r.Bottom - (pos + 1) * ((int)font.LineSpacing + 0);
 
 							string msg = ((ConsoleMessage)b[i]).Text;
